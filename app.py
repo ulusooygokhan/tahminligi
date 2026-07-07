@@ -2,23 +2,26 @@ import streamlit as st
 import pandas as pd
 
 
-# =====================================
+# ==========================================
 # SAYFA AYARI
-# =====================================
+# ==========================================
 
 st.set_page_config(
     page_title="Dünya Kupası Tahmin Ligi",
     page_icon="⚽",
-    layout="centered"
+    layout="centered",
+    initial_sidebar_state="collapsed"
 )
 
 
-# =====================================
-# FUTBOL TEMASI CSS
-# =====================================
+# ==========================================
+# MOBİL FUTBOL TASARIMI
+# ==========================================
 
 st.markdown("""
+
 <style>
+
 
 @import url(
 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap'
@@ -26,26 +29,34 @@ st.markdown("""
 
 
 *{
+
 font-family:Poppins,sans-serif;
+
 }
+
 
 
 .stApp{
 
+
 background:
+
 linear-gradient(
-rgba(0,20,10,.85),
-rgba(0,0,0,.92)
+rgba(0,30,15,.88),
+rgba(0,0,0,.95)
 ),
+
 url(
-"https://images.unsplash.com/photo-1553778263-73a83bab9b0c"
+"https://images.unsplash.com/photo-1522778119026-d647f0596c20"
 );
 
+
 background-size:cover;
+
 background-position:center;
+
 background-attachment:fixed;
 
-color:white;
 
 }
 
@@ -53,9 +64,15 @@ color:white;
 
 .block-container{
 
-max-width:850px;
 
-padding-top:30px;
+padding-top:15px;
+
+padding-left:12px;
+
+padding-right:12px;
+
+max-width:500px;
+
 
 }
 
@@ -65,67 +82,70 @@ padding-top:30px;
 
 .title{
 
+
 text-align:center;
 
-font-size:40px;
+font-size:28px;
+
+line-height:1.2;
 
 font-weight:800;
 
-letter-spacing:2px;
+margin-top:15px;
+
 
 }
+
 
 
 .subtitle{
 
+
 text-align:center;
+
+font-size:12px;
+
+letter-spacing:3px;
 
 color:#FFD700;
 
-font-size:16px;
+margin-bottom:25px;
 
-letter-spacing:4px;
-
-margin-bottom:40px;
 
 }
 
 
 
 
-/* Kart */
+/* Menü kart */
 
 .card{
 
+
 background:
 
-linear-gradient(
-135deg,
-rgba(0,90,45,.35),
-rgba(0,0,0,.7)
-);
+rgba(255,255,255,.08);
+
+
+border-radius:18px;
 
 
 border:
 
-1px solid rgba(255,255,255,.2);
+1px solid rgba(255,255,255,.15);
 
 
-border-radius:25px;
+padding:18px 10px;
 
 
-padding:25px;
-
-
-margin:15px 0;
+margin:10px 0;
 
 
 text-align:center;
 
 
-box-shadow:
+backdrop-filter:blur(10px);
 
-0 10px 30px rgba(0,0,0,.5);
 
 }
 
@@ -133,7 +153,8 @@ box-shadow:
 
 .icon{
 
-font-size:45px;
+
+font-size:32px;
 
 }
 
@@ -141,11 +162,10 @@ font-size:45px;
 
 .card-title{
 
-font-size:23px;
 
-font-weight:800;
+font-size:18px;
 
-margin-top:10px;
+font-weight:700;
 
 }
 
@@ -153,24 +173,31 @@ margin-top:10px;
 
 .card-text{
 
-color:#ddd;
 
-font-size:14px;
+font-size:12px;
 
-margin-top:10px;
+color:#ccc;
+
 
 }
 
 
 
-/* Buton */
+/* Küçük mobil buton */
 
 .stButton button{
 
 
-width:100%;
+height:42px!important;
 
-height:55px;
+
+border-radius:14px!important;
+
+
+font-size:13px!important;
+
+
+font-weight:700!important;
 
 
 background:
@@ -178,48 +205,39 @@ background:
 linear-gradient(
 90deg,
 #D4AF37,
-#FFD700
-);
-
-
-border:none;
-
-
-border-radius:20px;
+#FFE477
+)!important;
 
 
 color:#111!important;
 
 
-font-weight:800;
-
-
-font-size:16px;
-
-
-transition:.3s;
+border:none!important;
 
 
 }
 
 
 
-.stButton button:hover{
+.stButton{
 
-transform:scale(1.03);
+
+margin-bottom:8px;
 
 }
 
 
 
 
-/* Tablo */
+/* tablo */
 
 [data-testid="stDataFrame"]{
 
-border-radius:20px;
+
+border-radius:15px;
 
 overflow:hidden;
+
 
 }
 
@@ -227,14 +245,15 @@ overflow:hidden;
 
 </style>
 
-""",
-unsafe_allow_html=True)
+
+""", unsafe_allow_html=True)
 
 
 
-# =====================================
+# ==========================================
 # SAYFA SİSTEMİ
-# =====================================
+# ==========================================
+
 
 if "page" not in st.session_state:
 
@@ -242,47 +261,67 @@ if "page" not in st.session_state:
 
 
 
-def git(sayfa):
+def git(page):
 
-    st.session_state.page=sayfa
+    st.session_state.page=page
 
     st.rerun()
 
 
 
-# =====================================
-# ORTAK TASARIMLAR
-# =====================================
+
+# ==========================================
+# ORTAK
+# ==========================================
 
 
-def baslik(baslik,alt):
+def baslik(main,sub):
+
 
     st.markdown(
+
     f"""
 
     <div class="title">
 
-    {baslik}
+    {main}
 
     </div>
 
 
     <div class="subtitle">
 
-    {alt}
+    {sub}
 
     </div>
 
     """,
+
     unsafe_allow_html=True
+
     )
 
 
 
-def kart(icon,title,text,key):
+
+def geri():
+
+    if st.button(
+        "⬅ Geri",
+        key="geri"
+    ):
+
+        git("home")
+
+
+
+
+
+def kart(icon,title,text,page):
 
 
     st.markdown(
+
     f"""
 
     <div class="card">
@@ -311,54 +350,51 @@ def kart(icon,title,text,key):
 
     </div>
 
+
     """,
+
     unsafe_allow_html=True
+
     )
 
 
     if st.button(
         title,
-        key=key
+        key=page
     ):
 
-        git(key)
+        git(page)
 
 
 
-def geri():
-
-    if st.button("⬅ ANA MENÜ"):
-
-        git("home")
 
 
-
-# =====================================
+# ==========================================
 # ANA SAYFA
-# =====================================
+# ==========================================
 
 
-def ana_sayfa():
+def home():
 
 
     baslik(
         "🏆<br>DÜNYA KUPASI<br>TAHMİN LİGİ",
-        "FIFA 2026 EXPERIENCE"
+        "FIFA 2026"
     )
 
 
     kart(
         "🥇",
         "GENEL PUAN",
-        "Oyuncu sıralaması ve liderlik tablosu",
+        "Liderlik tablosu",
         "genel"
     )
 
 
     kart(
         "⚡",
-        "GÜNLÜK SONUÇLAR",
-        "Günlük alınan puanlar",
+        "GÜNLÜK SONUÇ",
+        "Günlük puan değişimleri",
         "gunluk"
     )
 
@@ -366,7 +402,7 @@ def ana_sayfa():
     kart(
         "📅",
         "MAÇ PROGRAMI",
-        "Turnuva fikstürü",
+        "Final yolunu takip et",
         "program"
     )
 
@@ -374,18 +410,15 @@ def ana_sayfa():
     kart(
         "⚽",
         "CANLI SKOR",
-        "Karşılaşma takip merkezi",
+        "Maç merkezi",
         "canli"
-    )
-
-
-
-# =====================================
+    )# ==========================================
 # GENEL PUAN
-# =====================================
+# ==========================================
 
 
 def genel():
+
 
     baslik(
         "🥇 GENEL PUAN",
@@ -396,27 +429,106 @@ def genel():
     geri()
 
 
+
     try:
+
 
         df=pd.read_csv(
             "genel_durum.csv"
         )
 
 
+
+        # İlk 3 oyuncu kartı
+
+        if len(df)>=3:
+
+
+            cols=st.columns(3)
+
+
+            madalya=[
+
+                "🥇",
+
+                "🥈",
+
+                "🥉"
+
+            ]
+
+
+
+            for i,row in df.head(3).iterrows():
+
+
+                with cols[i]:
+
+
+                    st.markdown(
+
+                    f"""
+
+                    <div class="card">
+
+
+                    <div class="icon">
+
+                    {madalya[i]}
+
+                    </div>
+
+
+                    <div class="card-title">
+
+                    {row.iloc[1]}
+
+                    </div>
+
+
+                    <div class="card-text">
+
+                    {row.iloc[-1]} Puan
+
+                    </div>
+
+
+                    </div>
+
+
+                    """,
+
+                    unsafe_allow_html=True
+
+                    )
+
+
+
         st.dataframe(
+
             df,
+
             use_container_width=True,
+
             hide_index=True
+
         )
 
 
     except:
 
-        st.error(
-            "genel_durum.csv bulunamadı"
-        )# =====================================
+
+        st.warning(
+            "Henüz puan verisi bulunmuyor."
+        )
+
+
+
+
+
+# ==========================================
 # GÜNLÜK SONUÇLAR
-# =====================================
+# ==========================================
 
 
 def gunluk():
@@ -424,11 +536,12 @@ def gunluk():
 
     baslik(
         "⚡ GÜNLÜK SONUÇLAR",
-        "PUAN DEĞİŞİMLERİ"
+        "GÜN GÜN PUANLAR"
     )
 
 
     geri()
+
 
 
     try:
@@ -439,18 +552,27 @@ def gunluk():
         )
 
 
+
         gunler=df["Gün"].unique()
 
 
+
         secim=st.selectbox(
+
             "📅 Gün Seç",
+
             gunler
+
         )
 
 
+
         sonuc=df[
+
             df["Gün"]==secim
+
         ]
+
 
 
         st.markdown(
@@ -459,8 +581,11 @@ def gunluk():
 
         <div class="card">
 
+
         <div class="icon">
+
         ⚡
+
         </div>
 
 
@@ -473,12 +598,13 @@ def gunluk():
 
         <div class="card-text">
 
-        Günlük performans
+        Günlük Performans
 
         </div>
 
 
         </div>
+
 
         """,
 
@@ -487,35 +613,45 @@ def gunluk():
         )
 
 
+
         st.dataframe(
-            sonuc.drop(columns=["Gün"]),
+
+            sonuc.drop(
+                columns=["Gün"]
+            ),
+
             use_container_width=True,
+
             hide_index=True
+
         )
 
 
     except:
 
 
-        st.error(
-            "gunluk_sonuclar.csv bulunamadı"
+        st.warning(
+            "Günlük sonuç dosyası bulunamadı."
         )
 
 
 
 
 
-# =====================================
+# ==========================================
 # MAÇ PROGRAMI
-# =====================================
+# ==========================================
 
 
 def program():
 
 
     baslik(
+
         "📅 MAÇ PROGRAMI",
-        "ŞAMPİYONLUK YOLU"
+
+        "DÜNYA KUPASI FİNAL YOLU"
+
     )
 
 
@@ -525,46 +661,30 @@ def program():
 
     maclar=[
 
-        (
-        "27. Gün",
-        "🇫🇷 Fransa",
-        "🇲🇦 Fas",
-        "Çeyrek Final"
-        ),
 
-        (
-        "28. Gün",
-        "🇪🇸 İspanya",
-        "🇧🇪 Belçika",
-        "Çeyrek Final"
-        ),
+        "🏟️ 27. Gün | Son 32 Turu",
 
-        (
-        "29. Gün",
-        "🇳🇴 Norveç",
-        "🏴 İngiltere",
-        "Yarı Final"
-        ),
+        "🏟️ 28. Gün | Son 16 Turu",
 
-        (
-        "30. Gün",
-        "🇦🇷 Arjantin",
-        "🇨🇴 Kolombiya",
-        "Yarı Final"
-        ),
+        "🔥 29. Gün | Son 16 Turu",
 
-        (
-        "33. Gün",
-        "🏆 FİNAL",
-        "🌍 ŞAMPİYON",
-        "Final"
-        )
+        "🔥 30. Gün | Çeyrek Final",
+
+        "⚔️ 31. Gün | Çeyrek Final",
+
+        "⚔️ 32. Gün | Yarı Final",
+
+        "🥉 33. Gün | 3.'lük Maçı",
+
+        "🏆 34. Gün | DÜNYA KUPASI FİNALİ"
+
 
     ]
 
 
 
-    for gun,ev,deplasman,tur in maclar:
+    for mac in maclar:
+
 
 
         st.markdown(
@@ -574,42 +694,23 @@ def program():
         <div class="card">
 
 
+        <div class="icon">
+
+        ⚽
+
+        </div>
+
+
         <div class="card-title">
 
-        {gun}
+        {mac}
 
         </div>
-
-
-        <br>
-
-
-        <div style="
-        font-size:22px;
-        font-weight:800;
-        ">
-
-
-        {ev}
-
-        <br>
-
-        ⚔️
-
-        <br>
-
-        {deplasman}
-
-
-        </div>
-
-
-        <br>
 
 
         <div class="card-text">
 
-        {tur}
+        Tahminlerini yap ve puan kazan
 
         </div>
 
@@ -621,23 +722,20 @@ def program():
         unsafe_allow_html=True
 
         )
-
-
-
-
-
-
-# =====================================
+# ==========================================
 # CANLI SKOR
-# =====================================
+# ==========================================
 
 
 def canli():
 
 
     baslik(
+
         "⚽ CANLI SKOR",
-        "MAÇ MERKEZİ"
+
+        "MAÇ TAKİP MERKEZİ"
+
     )
 
 
@@ -649,33 +747,35 @@ def canli():
 
 
         (
-        "🇧🇷 Brezilya",
-        "🇯🇵 Japonya",
-        "2 - 1",
-        "65'"
+            "🇧🇷 Brezilya",
+            "🇯🇵 Japonya",
+            "2 - 1",
+            "65'"
         ),
 
 
         (
-        "🇵🇹 Portekiz",
-        "🇭🇷 Hırvatistan",
-        "0 - 0",
-        "23'"
+            "🇦🇷 Arjantin",
+            "🇩🇪 Almanya",
+            "0 - 0",
+            "23'"
         ),
 
 
         (
-        "🇩🇪 Almanya",
-        "🇦🇷 Arjantin",
-        "-",
-        "Başlamadı"
+            "🇵🇹 Portekiz",
+            "🇭🇷 Hırvatistan",
+            "-",
+            "Başlamadı"
         )
+
 
     ]
 
 
 
     for ev,dep,skor,zaman in maclar:
+
 
 
         st.markdown(
@@ -695,10 +795,8 @@ def canli():
         <br>
 
 
-        <div style="
-        font-size:20px;
-        font-weight:800;
-        ">
+        <div style="font-size:18px;font-weight:700;">
+
 
         {ev}
 
@@ -710,6 +808,7 @@ def canli():
 
         {dep}
 
+
         </div>
 
 
@@ -718,7 +817,7 @@ def canli():
 
         <div style="
         color:#FFD700;
-        font-size:32px;
+        font-size:28px;
         font-weight:800;
         ">
 
@@ -736,6 +835,7 @@ def canli():
 
         </div>
 
+
         """,
 
         unsafe_allow_html=True
@@ -744,9 +844,10 @@ def canli():
 
 
 
+
     st.link_button(
 
-        "🌐 FLASH SCORE",
+        "🌐 CANLI SKORLAR",
 
         "https://www.flashscore.com.tr/",
 
@@ -758,24 +859,27 @@ def canli():
 
 
 
-# =====================================
+# ==========================================
 # FOOTER
-# =====================================
+# ==========================================
 
 
 def footer():
+
 
     st.markdown(
 
     """
 
-    <br><br>
+    <br>
 
     <div style="
     text-align:center;
     color:#888;
-    font-size:13px;
+    font-size:11px;
+    padding:15px;
     ">
+
 
     🏆 Dünya Kupası Tahmin Ligi
 
@@ -783,9 +887,6 @@ def footer():
 
     FIFA 2026 Experience
 
-    <br><br>
-
-    © 2026
 
     </div>
 
@@ -798,14 +899,15 @@ def footer():
 
 
 
-# =====================================
-# TEK YÖNLENDİRME NOKTASI
-# =====================================
+
+# ==========================================
+# TEK YÖNLENDİRME SİSTEMİ
+# ==========================================
 
 
 if st.session_state.page=="home":
 
-    ana_sayfa()
+    home()
 
 
 
