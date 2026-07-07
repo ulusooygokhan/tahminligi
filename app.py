@@ -1,11 +1,10 @@
 import streamlit as st
 import pandas as pd
-import os
 
 
-# -----------------------------
+# =====================================================
 # SAYFA AYARLARI
-# -----------------------------
+# =====================================================
 
 st.set_page_config(
     page_title="Dünya Kupası Tahmin Ligi",
@@ -15,145 +14,142 @@ st.set_page_config(
 )
 
 
-# -----------------------------
-# PREMIUM CSS
-# -----------------------------
+# =====================================================
+# PREMIUM TASARIM
+# =====================================================
 
 st.markdown("""
 <style>
 
-/* Genel */
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
 
-html, body, [class*="css"] {
+* {
     font-family: 'Poppins', sans-serif;
 }
 
 
-/* Ana arka plan */
-
 .stApp {
 
-    background:
-    linear-gradient(
-        rgba(3,8,18,0.88),
-        rgba(3,8,18,0.95)
-    ),
-    url("https://images.unsplash.com/photo-1508098682722-e99c43a406b2");
+background:
+linear-gradient(
+rgba(5,10,20,.88),
+rgba(0,0,0,.95)
+),
+url("https://images.unsplash.com/photo-1508098682722-e99c43a406b2");
 
-    background-size:cover;
-    background-position:center;
-    background-attachment:fixed;
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
 
-    color:white;
+color:white;
+
 }
 
 
-/* Streamlit üst boşluk */
 
 .block-container {
 
-    padding-top:2rem;
-    max-width:900px;
+max-width:900px;
+padding-top:30px;
 
 }
 
 
 
-/* Başlık */
 
-.main-title {
+.title {
 
-    text-align:center;
+text-align:center;
 
-    font-size:42px;
+font-size:42px;
 
-    font-weight:800;
+font-weight:800;
 
-    letter-spacing:3px;
+letter-spacing:3px;
 
-    margin-top:40px;
+color:white;
 
-    color:white;
-
-}
-
-
-.sub-title {
-
-    text-align:center;
-
-    color:#D4AF37;
-
-    font-size:18px;
-
-    letter-spacing:5px;
-
-    margin-bottom:50px;
+margin-top:30px;
 
 }
 
 
 
-/* Kart sistemi */
+.subtitle {
 
+text-align:center;
 
-.menu-card {
+font-size:16px;
 
-    background:
-    rgba(255,255,255,0.06);
+letter-spacing:5px;
 
-    backdrop-filter:
-    blur(15px);
+color:#D4AF37;
 
-
-    border:
-
-    1px solid rgba(255,255,255,0.12);
-
-
-    border-radius:25px;
-
-
-    padding:25px;
-
-
-    margin:18px 0;
-
-
-    text-align:center;
-
-
-    transition:0.35s;
-
-
-}
-
-
-.menu-card:hover {
-
-    transform:
-    translateY(-8px);
-
-
-    border:
-
-    1px solid #D4AF37;
-
-
-    box-shadow:
-
-    0 0 35px rgba(212,175,55,.25);
+margin-bottom:45px;
 
 }
 
 
 
-.card-icon {
 
-    font-size:45px;
+
+.card {
+
+
+background:
+
+rgba(255,255,255,.07);
+
+
+border:
+
+1px solid rgba(255,255,255,.15);
+
+
+border-radius:25px;
+
+
+padding:25px;
+
+
+margin:15px 0;
+
+
+text-align:center;
+
+
+backdrop-filter:blur(15px);
+
+
+transition:.3s;
+
+
+}
+
+
+
+.card:hover {
+
+
+transform:translateY(-8px);
+
+
+border-color:#D4AF37;
+
+
+box-shadow:
+
+0 0 35px rgba(212,175,55,.25);
+
+
+}
+
+
+
+.icon {
+
+font-size:45px;
 
 }
 
@@ -161,111 +157,103 @@ html, body, [class*="css"] {
 
 .card-title {
 
-    font-size:22px;
+font-size:22px;
 
-    font-weight:700;
+font-weight:700;
 
-    margin-top:10px;
-
-}
-
-
-
-.card-desc {
-
-    color:#bbbbbb;
-
-    font-size:14px;
+margin-top:10px;
 
 }
 
 
 
-/* Butonları gizli kart yap */
+.card-text {
 
-div.stButton > button {
+font-size:14px;
 
-
-    width:100%;
-
-    height:100%;
-
-    position:absolute;
-
-    opacity:0;
-
-    cursor:pointer;
-
-}
-
-
-div.stButton {
-
-
-    height:0;
+color:#bbbbbb;
 
 }
 
 
 
-/* Geri butonu */
+
+.stButton button {
+
+
+width:100%;
+
+
+height:60px;
+
+
+border-radius:25px;
+
+
+background:transparent;
+
+
+border:none;
+
+
+color:transparent;
+
+
+position:absolute;
+
+
+margin-top:-90px;
+
+
+cursor:pointer;
+
+
+}
+
+
+
+.stButton {
+
+
+height:0;
+
+}
+
+
+
+
+div[data-testid="stDataFrame"] {
+
+
+border-radius:20px;
+
+
+overflow:hidden;
+
+}
+
+
 
 .back button {
 
 
-    background:
-
-    rgba(255,255,255,.08)!important;
-
-
-    color:white!important;
-
-
-    border-radius:20px!important;
-
-
-    border:1px solid rgba(255,255,255,.15)!important;
+color:white!important;
 
 }
 
 
-
-/* Tablo */
-
-[data-testid="stDataFrame"] {
-
-
-    background:
-
-    rgba(255,255,255,.05);
-
-    border-radius:20px;
-
-}
-
-
-/* Altın yazı */
-
-
-.gold {
-
-color:#D4AF37;
-
-}
-
-
-/* Mobil */
 
 @media(max-width:600px){
 
-.main-title{
+
+.title {
 
 font-size:30px;
 
 }
 
 
-.menu-card{
+.card {
 
 padding:20px;
 
@@ -281,9 +269,9 @@ padding:20px;
 
 
 
-# -----------------------------
+# =====================================================
 # SESSION
-# -----------------------------
+# =====================================================
 
 
 if "page" not in st.session_state:
@@ -292,12 +280,7 @@ if "page" not in st.session_state:
 
 
 
-# -----------------------------
-# SAYFA DEĞİŞTİRME
-# -----------------------------
-
-
-def change_page(page):
+def go(page):
 
     st.session_state.page=page
 
@@ -305,26 +288,26 @@ def change_page(page):
 
 
 
-# -----------------------------
-# BAŞLIK
-# -----------------------------
+# =====================================================
+# ORTAK BİLEŞENLER
+# =====================================================
 
 
-def header():
+def header(title, subtitle):
 
     st.markdown(
-    """
-    <div class="main-title">
+    f"""
 
-    🏆<br>
-    DÜNYA KUPASI<br>
-    TAHMİN LİGİ
+    <div class="title">
+
+    {title}
 
     </div>
 
-    <div class="sub-title">
 
-    FIFA 2026 EXPERIENCE
+    <div class="subtitle">
+
+    {subtitle}
 
     </div>
 
@@ -334,118 +317,159 @@ def header():
 
 
 
-# -----------------------------
-# KART OLUŞTURUCU
-# -----------------------------
-
-
-def card(icon,title,desc,page):
+def menu_card(icon,title,text,page):
 
 
     st.markdown(
     f"""
 
-    <div class="menu-card">
+    <div class="card">
 
-    <div class="card-icon">
+
+    <div class="icon">
+
     {icon}
+
     </div>
 
 
     <div class="card-title">
+
     {title}
+
+    </div>
+
+
+    <div class="card-text">
+
+    {text}
+
     </div>
 
 
-    <div class="card-desc">
-    {desc}
     </div>
 
-
-    </div>
 
     """,
     unsafe_allow_html=True
     )
 
 
-    if st.button(
-        title,
-        key=page
-    ):
+    if st.button(title,key=page):
 
-        change_page(page)
-# -----------------------------
-# GENEL PUAN TABLOSU
-# -----------------------------
+        go(page)
 
 
-def genel_siralama():
 
-    st.markdown(
-    """
-    <div class="main-title">
-    🏆 GENEL SIRALAMA
-    </div>
+def back():
 
-    <div class="sub-title">
-    LİDERLİK TABLOSU
-    </div>
-    """,
-    unsafe_allow_html=True
+    if st.button("⬅ ANA MENÜ"):
+
+        go("home")
+
+
+
+# =====================================================
+# ANA SAYFA
+# =====================================================
+
+
+def home():
+
+
+    header(
+        "🏆<br>DÜNYA KUPASI<br>TAHMİN LİGİ",
+        "FIFA 2026 EXPERIENCE"
     )
 
 
-    if st.button("⬅ ANA MENÜ", key="back_general"):
+    menu_card(
+        "🥇",
+        "GENEL PUAN",
+        "Turnuva sıralaması ve liderlik",
+        "genel"
+    )
 
-        change_page("home")
 
+    menu_card(
+        "⚡",
+        "GÜNLÜK SONUÇLAR",
+        "Günlük puan değişimleri",
+        "gunluk"
+    )
+
+
+    menu_card(
+        "📅",
+        "MAÇ PROGRAMI",
+        "Final yolundaki karşılaşmalar",
+        "program"
+    )
+
+
+    menu_card(
+        "⚽",
+        "CANLI SKOR",
+        "Maç takip merkezi",
+        "canli"
+    )
+
+
+
+# =====================================================
+# GENEL SIRALAMA
+# =====================================================
+
+
+def genel():
+
+
+    header(
+        "🏆 GENEL SIRALAMA",
+        "LİDERLİK TABLOSU"
+    )
+
+
+    back()
 
 
     try:
 
-        df = pd.read_csv("genel_durum.csv")
+        df=pd.read_csv(
+            "genel_durum.csv"
+        )
 
 
-        # İlk 3 oyuncu özel gösterim
-
-        if len(df) >= 3:
+        if len(df)>=3:
 
 
-            ilk_uc = df.head(3)
+            cols=st.columns(3)
 
 
-            cols = st.columns(3)
+            medals=["🥇","🥈","🥉"]
 
 
-            madalyalar = [
-                "🥇",
-                "🥈",
-                "🥉"
-            ]
-
-
-            for i,row in ilk_uc.iterrows():
+            for i,row in df.head(3).iterrows():
 
                 with cols[i]:
-
 
                     st.markdown(
                     f"""
 
-                    <div class="menu-card">
+                    <div class="card">
 
-                    <div class="card-icon">
-                    {madalyalar[i]}
+                    <div class="icon">
+                    {medals[i]}
                     </div>
-
 
                     <div class="card-title">
+
                     {row.iloc[1]}
+
                     </div>
 
 
-                    <div class="card-desc">
+                    <div class="card-text">
 
                     {row.iloc[-1]} PUAN
 
@@ -453,201 +477,79 @@ def genel_siralama():
 
                     </div>
 
-
                     """,
                     unsafe_allow_html=True
                     )
 
 
-
-        st.markdown(
-        """
-        <br>
-        """,
-        unsafe_allow_html=True
-        )
-
-
-
-        # Tablo
-
-
         st.dataframe(
-
             df,
-
             use_container_width=True,
-
             hide_index=True
-
         )
 
 
-
-    except Exception:
-
+    except:
 
         st.warning(
-            "Henüz puan verisi yüklenmedi."
+            "genel_durum.csv bulunamadı."
         )
-
-
-
-# -----------------------------
-# ANA MENÜ
-# -----------------------------
-
-
-def home():
-
-
-    header()
-
-
-    card(
-
-        "🥇",
-
-        "GENEL PUAN",
-
-        "Turnuva sıralaması ve liderlik tablosu",
-
-        "genel"
-
-    )
-
-
-    card(
-
-        "⚡",
-
-        "GÜNLÜK SONUÇLAR",
-
-        "Gün gün puan değişimleri",
-
-        "gunluk"
-
-    )
-
-
-    card(
-
-        "📅",
-
-        "MAÇ PROGRAMI",
-
-        "Final yolundaki tüm karşılaşmalar",
-
-        "program"
-
-    )
-
-
-    card(
-
-        "⚽",
-
-        "CANLI SKOR",
-
-        "Anlık maç sonuçlarını takip et",
-
-        "canli"
-
-    )
-
-
-
-# -----------------------------
-# SAYFA YÖNLENDİRME
-# -----------------------------
-
-
-if st.session_state.page=="home":
-
-    home()
-
-
-
-elif st.session_state.page=="genel":
-
-    genel_siralama()
-# -----------------------------
+# =====================================================
 # GÜNLÜK SONUÇLAR
-# -----------------------------
+# =====================================================
 
 
-def gunluk_sonuclar():
+def gunluk():
 
-
-    st.markdown(
-    """
-    <div class="main-title">
-    ⚡ GÜNLÜK SONUÇLAR
-    </div>
-
-    <div class="sub-title">
-    GÜN GÜN PUAN DEĞİŞİMLERİ
-    </div>
-
-    """,
-    unsafe_allow_html=True
+    header(
+        "⚡ GÜNLÜK SONUÇLAR",
+        "PERFORMANS TAKİBİ"
     )
 
-
-    if st.button("⬅ ANA MENÜ", key="back_daily"):
-
-        change_page("home")
-
+    back()
 
 
     try:
 
-
-        df = pd.read_csv(
+        df=pd.read_csv(
             "gunluk_sonuclar.csv"
         )
 
 
-        gunler = df["Gün"].unique()
+        gunler=df["Gün"].unique()
 
 
-        secilen_gun = st.selectbox(
-
+        secim=st.selectbox(
             "📅 Gün Seç",
-
             gunler
-
         )
 
 
-
-        sonuc = df[
-            df["Gün"] == secilen_gun
+        sonuc=df[
+            df["Gün"]==secim
         ]
-
 
 
         st.markdown(
 
         f"""
 
-        <div class="menu-card">
+        <div class="card">
 
-        <div class="card-icon">
+        <div class="icon">
         ⚡
         </div>
 
-
         <div class="card-title">
 
-        {secilen_gun}
+        {secim}
 
         </div>
 
 
-        <div class="card-desc">
+        <div class="card-text">
 
-        Günlük performans sonuçları
+        Günlük sonuçlar
 
         </div>
 
@@ -660,78 +562,42 @@ def gunluk_sonuclar():
         )
 
 
-
         st.dataframe(
-
-            sonuc.drop(
-                columns=["Gün"]
-            ),
-
+            sonuc.drop(columns=["Gün"]),
             use_container_width=True,
-
             hide_index=True
-
         )
-
 
 
     except:
 
-
         st.warning(
-
-            "Günlük sonuç dosyası bulunamadı."
-
+            "gunluk_sonuclar.csv bulunamadı."
         )
 
 
 
 
 
-# -----------------------------
+# =====================================================
 # MAÇ PROGRAMI
-# -----------------------------
+# =====================================================
 
 
 def program():
 
 
-
-    st.markdown(
-
-    """
-
-    <div class="main-title">
-
-    📅 MAÇ PROGRAMI
-
-    </div>
-
-
-    <div class="sub-title">
-
-    FİNAL YOLU
-
-    </div>
-
-    """,
-
-    unsafe_allow_html=True
-
+    header(
+        "📅 MAÇ PROGRAMI",
+        "FİNAL YOLU"
     )
 
 
-
-    if st.button(
-        "⬅ ANA MENÜ",
-        key="back_program"
-    ):
-
-        change_page("home")
+    back()
 
 
+    maclar=[
 
-    maclar = [
 
         (
         "27. Gün",
@@ -772,19 +638,19 @@ def program():
         "Final"
         )
 
+
     ]
 
 
 
-    for gun,ev,dep, tur in maclar:
-
+    for gun,ev,deplasman,tur in maclar:
 
 
         st.markdown(
 
         f"""
 
-        <div class="menu-card">
+        <div class="card">
 
 
         <div class="card-title">
@@ -797,9 +663,14 @@ def program():
         <br>
 
 
-        <div style="font-size:22px;font-weight:700">
+        <div style="
+        font-size:22px;
+        font-weight:700;
+        ">
+
 
         {ev}
+
 
         <br>
 
@@ -807,16 +678,17 @@ def program():
 
         <br>
 
-        {dep}
+
+        {deplasman}
+
 
         </div>
-
 
 
         <br>
 
 
-        <div class="card-desc">
+        <div class="card-text">
 
         {tur}
 
@@ -836,167 +708,63 @@ def program():
 
 
 
-# -----------------------------
-# YÖNLENDİRME GÜNCELLEME
-# -----------------------------
-
-elif st.session_state.page=="program":
-
-    program()
-# -----------------------------
-# CANLI SKOR SAYFASI
-# -----------------------------
+# =====================================================
+# CANLI SKOR
+# =====================================================
 
 
-def canli_skor():
+def canli():
 
 
-    st.markdown(
-
-    """
-
-    <div class="main-title">
-
-    ⚽ CANLI SKOR
-
-    </div>
-
-
-    <div class="sub-title">
-
-    MAÇ TAKİP MERKEZİ
-
-    </div>
-
-    """,
-
-    unsafe_allow_html=True
-
+    header(
+        "⚽ CANLI SKOR",
+        "MAÇ TAKİP MERKEZİ"
     )
 
 
-
-    if st.button(
-        "⬅ ANA MENÜ",
-        key="back_live"
-    ):
-
-        change_page("home")
+    back()
 
 
 
-    # İstatistik kartları
+    maclar=[
 
-
-    col1, col2 = st.columns(2)
-
-
-
-    with col1:
-
-        st.markdown(
-
-        """
-
-        <div class="menu-card">
-
-        <div class="card-icon">
-        🔥
-        </div>
-
-        <div class="card-title">
-        AKTİF MAÇLAR
-        </div>
-
-        <div class="card-desc">
-        Güncel karşılaşmalar
-        </div>
-
-        </div>
-
-        """,
-
-        unsafe_allow_html=True
-
-        )
-
-
-
-    with col2:
-
-        st.markdown(
-
-        """
-
-        <div class="menu-card">
-
-        <div class="card-icon">
-        🏆
-        </div>
-
-        <div class="card-title">
-        TURNUVA
-        </div>
-
-        <div class="card-desc">
-        FIFA 2026
-        </div>
-
-        </div>
-
-        """,
-
-        unsafe_allow_html=True
-
-        )
-
-
-
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-
-
-    # Canlı maç kartları
-
-
-    canli_maclar = [
 
         (
         "🇧🇷 Brezilya",
         "🇯🇵 Japonya",
-        "65'",
-        "2 - 1"
+        "2 - 1",
+        "65'"
         ),
 
 
         (
         "🇵🇹 Portekiz",
         "🇭🇷 Hırvatistan",
-        "23'",
-        "0 - 0"
+        "0 - 0",
+        "23'"
         ),
 
 
         (
         "🇩🇪 Almanya",
         "🇦🇷 Arjantin",
-        "Başlamadı",
-        "-"
+        "-",
+        "Başlamadı"
         )
+
 
     ]
 
 
 
-    for ev,dep,dakika,skor in canli_maclar:
+    for ev,dep,skor,zaman in maclar:
 
 
         st.markdown(
 
         f"""
 
-        <div class="menu-card">
+        <div class="card">
 
 
         <div class="card-title">
@@ -1017,13 +785,11 @@ def canli_skor():
 
         {ev}
 
-
         <br>
 
         ⚔️
 
         <br>
-
 
         {dep}
 
@@ -1035,8 +801,8 @@ def canli_skor():
 
 
         <div style="
-        font-size:28px;
         color:#D4AF37;
+        font-size:30px;
         font-weight:800;
         ">
 
@@ -1045,9 +811,9 @@ def canli_skor():
         </div>
 
 
-        <div class="card-desc">
+        <div class="card-text">
 
-        {dakika}
+        {zaman}
 
         </div>
 
@@ -1063,10 +829,6 @@ def canli_skor():
 
 
 
-    st.markdown("<br>",unsafe_allow_html=True)
-
-
-
     st.link_button(
 
         "🌐 DETAYLI SKORLAR",
@@ -1077,12 +839,16 @@ def canli_skor():
 
     )
 
-# -----------------------------
+
+
+
+# =====================================================
 # FOOTER
-# -----------------------------
+# =====================================================
 
 
 def footer():
+
 
     st.markdown(
 
@@ -1095,32 +861,20 @@ def footer():
 
     text-align:center;
 
-    color:rgba(255,255,255,.45);
+    color:#777;
 
     font-size:13px;
-
-    padding:20px;
 
     ">
 
 
-    ━━━━━━━━━━━━━━━
-
-
-    <br>
-
-
     🏆 Dünya Kupası Tahmin Ligi
 
-
     <br>
-
 
     FIFA 2026 Experience
 
-
     <br><br>
-
 
     © 2026
 
@@ -1138,134 +892,35 @@ def footer():
 
 
 
-# -----------------------------
-# ANİMASYON EFEKTLERİ
-# -----------------------------
+# =====================================================
+# TEK SAYFA YÖNETİMİ
+# =====================================================
 
 
-st.markdown(
-
-"""
-
-<style>
-
-
-@keyframes fadeIn {
-
-
-from {
-
-opacity:0;
-
-transform:translateY(20px);
-
-}
-
-
-to {
-
-
-opacity:1;
-
-transform:translateY(0);
-
-
-}
-
-
-}
-
-
-
-.menu-card {
-
-
-animation:
-
-fadeIn .6s ease;
-
-
-}
-
-
-
-.stSelectbox label {
-
-
-color:white!important;
-
-font-weight:600;
-
-}
-
-
-
-.stSelectbox div[data-baseweb="select"] {
-
-
-background:
-
-rgba(255,255,255,.08);
-
-
-border-radius:15px;
-
-
-}
-
-
-
-button:hover {
-
-
-border-color:#D4AF37!important;
-
-
-}
-
-
-
-</style>
-
-
-""",
-
-unsafe_allow_html=True
-
-)
-
-
-
-# Footer bütün sayfalarda
-
-footer()
-# -----------------------------
-# SAYFA YÖNLENDİRME
-# -----------------------------
-
-if st.session_state.page == "home":
+if st.session_state.page=="home":
 
     home()
 
 
-elif st.session_state.page == "genel":
+elif st.session_state.page=="genel":
 
-    genel_siralama()
-
-
-elif st.session_state.page == "gunluk":
-
-    gunluk_sonuclar()
+    genel()
 
 
-elif st.session_state.page == "program":
+elif st.session_state.page=="gunluk":
+
+    gunluk()
+
+
+elif st.session_state.page=="program":
 
     program()
 
 
-elif st.session_state.page == "canli":
+elif st.session_state.page=="canli":
 
-    canli_skor()
+    canli()
+
 
 
 footer()
