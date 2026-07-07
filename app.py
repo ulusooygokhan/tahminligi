@@ -840,13 +840,6 @@ def program():
 # YÖNLENDİRME GÜNCELLEME
 # -----------------------------
 
-
-elif st.session_state.page=="gunluk":
-
-    gunluk_sonuclar()
-
-
-
 elif st.session_state.page=="program":
 
     program()
@@ -1084,18 +1077,6 @@ def canli_skor():
 
     )
 
-
-
-
-
-# -----------------------------
-# CANLI SAYFA ROUTE
-# -----------------------------
-
-
-elif st.session_state.page=="canli":
-
-    canli_skor()
 # -----------------------------
 # FOOTER
 # -----------------------------
@@ -1256,5 +1237,35 @@ unsafe_allow_html=True
 
 
 # Footer bütün sayfalarda
+
+footer()
+# -----------------------------
+# SAYFA YÖNLENDİRME
+# -----------------------------
+
+if st.session_state.page == "home":
+
+    home()
+
+
+elif st.session_state.page == "genel":
+
+    genel_siralama()
+
+
+elif st.session_state.page == "gunluk":
+
+    gunluk_sonuclar()
+
+
+elif st.session_state.page == "program":
+
+    program()
+
+
+elif st.session_state.page == "canli":
+
+    canli_skor()
+
 
 footer()
