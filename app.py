@@ -2,75 +2,67 @@ import streamlit as st
 import pandas as pd
 import streamlit.components.v1 as components
 
-# --- SAYFA AYARLARI ---
-st.set_page_config(page_title="Tahmin Ligi PRO", layout="wide", page_icon="🏆")
+# --- MOBİL VE KOYU TEMA AYARLARI ---
+st.set_page_config(page_title="Tahmin Ligi", layout="centered", page_icon="🏆")
 
-# --- 3D / PREMIUM CSS TASARIMI ---
+# --- KOYU TEMA VE SADE TASARIM ---
 st.markdown("""
     <style>
-    .stApp {
-        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-        color: white;
-    }
-    .css-1r6slb0, .css-18e3th9, .css-1d391kg {
-        background: rgba(255, 255, 255, 0.05) !important;
-        backdrop-filter: blur(10px) !important;
-        border-radius: 20px !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
-    }
-    h1, h2, h3 {
-        text-transform: uppercase;
-        background: -webkit-linear-gradient(#ffdd00, #fbb034);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        font-weight: 900 !important;
-    }
-    div[data-testid="stDataFrame"] {
-        background: rgba(0, 0, 0, 0.5);
-        border-radius: 15px;
-        padding: 10px;
-        box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    .stApp { background-color: #0E1117; color: #FAFAFA; }
+    .stDataFrame { font-size: 16px !important; }
+    div[data-baseweb="select"] { font-size: 18px !important; }
+    h1, h2, h3 { color: #FFFFFF !important; text-align: center; }
+    .program-box { 
+        background-color: #161B22; border-radius: 10px; 
+        padding: 15px; border-left: 5px solid #FFDD00;
+        margin-bottom: 20px; font-size: 14px;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# --- BAŞLIK ---
-st.title("🏆 TAHMİN LİGİ PRO")
-st.markdown("---")
+st.title("🏆 TAHMİN LİGİ")
 
-# --- SEKMELER (TABS) ---
-tab1, tab2, tab3 = st.tabs(["🥇 GENEL PUAN DURUMU", "⚡ GÜNLÜK SONUÇLAR", "⚽ CANLI SKORLAR"])
+# --- GELECEK PROGRAMLAR (Yeni Eklenen Bölüm) ---
+st.subheader("🗓️ Gelecek Maç Programı")
+st.markdown("""
+<div class="program-box">
+    <b>27. Gün:</b> Fransa vs Fas<br>
+    <b>28. Gün:</b> İspanya vs Belçika<br>
+    <b>29. Gün:</b> Norveç vs İngiltere & Arjantin vs Kolombiya/İsviçre<br>
+    <b>30. Gün:</b> Yarı Final 1. Maç<br>
+    <b>31. Gün:</b> Yarı Final 2. Maç<br>
+    <b>32. Gün:</b> 3.lük Maçı<br>
+    <b>33. Gün:</b> Final Maçı
+</div>
+""", unsafe_allow_html=True)
 
-# 1. SEKME: GENEL PUAN DURUMU
+# --- SEKMELER ---
+tab1, tab2, tab3 = st.tabs(["GENEL", "SONUÇLAR", "CANLI"])
+
 with tab1:
-    st.subheader("Güncel Sıralama")
+    st.subheader("Puan Durumu")
     try:
         df_genel = pd.read_csv("genel_durum.csv")
         st.dataframe(df_genel, use_container_width=True, hide_index=True)
-    except FileNotFoundError:
-        st.info("Genel durum verisi henüz yüklenmedi.")
+    except:
+        st.write("Veri yükleniyor...")
 
-# 2. SEKME: GÜNLÜK SONUÇLAR
 with tab2:
-    st.subheader("Geçmiş Günlerin Analizi")
+    st.subheader("Günlük Seçim")
     try:
         df_gunluk = pd.read_csv("gunluk_sonuclar.csv")
         gunler = df_gunluk['Gün'].unique()
-        gun_secimi = st.selectbox("Sonuçlarını görmek istediğiniz günü seçin:", gunler)
-        df_secilen = df_gunluk[df_gunluk['Gün'] == gun_secimi]
-        df_goster = df_secilen.drop(columns=['Gün'])
-        st.dataframe(df_goster, use_container_width=True, hide_index=True)
-    except FileNotFoundError:
-        st.info("Günlük veriler (CSV) henüz yüklenmedi.")
+        secim = st.selectbox("Günü Seçin:", gunler)
+        df_secilen = df_gunluk[df_gunluk['Gün'] == secim].drop(columns=['Gün'])
+        st.dataframe(df_secilen, use_container_width=True, hide_index=True)
+    except:
+        st.write("Veri yükleniyor...")
 
-# 3. SEKME: DÜNYA KUPASI CANLI SKOR
 with tab3:
-    st.subheader("Dünya Kupası Canlı Maç Sonuçları")
+    st.subheader("Canlı Maçlar")
     components.html(
         """
-        <iframe src="https://www.scorebat.com/embed/livescore/" frameborder="0" width="100%" height="600" allowfullscreen allow="autoplay; fullscreen" style="width:100%;height:600px;overflow:hidden;border-radius:15px;box-shadow: 0 4px 15px rgba(0,0,0,0.5);"></iframe>
+        <iframe src="https://www.scorebat.com/embed/livescore/" frameborder="0" width="100%" height="500" allowfullscreen allow="autoplay; fullscreen" style="border-radius:10px;"></iframe>
         """,
-        height=600,
+        height=500,
     )
